@@ -65,6 +65,42 @@
             $this->assertEquals($expected_output, $result);
         }
 
+        function test_save()
+        {
+            //Arrange
+            $name = "Whatsonya Foot";
+            $new_store = new Store($name);
+
+            //Act
+            $new_store->save();
+            $expected_output = $new_store;
+            $all_stores = Store::getAll();
+            $result = $all_stores[0];
+
+            //Assert
+            $this->assertEquals($expected_output, $result);
+        }
+
+        function test_getAll()
+        {
+            //Arrange
+            $name = "GlueAShoeToYou";
+            $new_store = new Store($name);
+            $new_store->save();
+
+            $name2 = "Shoe Glide";
+            $new_store2 = new Store($name2);
+            $new_store2->save();
+
+            $expected_output = [$new_store, $new_store2];
+
+            //Act
+            $result = Store::getAll();
+
+            //Assert
+            $this->assertEquals($expected_output, $result);
+        }
+
     }
 
 ?>

@@ -14,7 +14,7 @@
 
         function getName()
         {
-            return $this->name;
+            return (string)$this->name;
         }
 
         function setName($new_name)
