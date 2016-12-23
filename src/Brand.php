@@ -29,11 +29,21 @@
 
         function save()
         {
-            $name = $this->getName();
+            $GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('{$this->getName()}');");
+            $this->id = $GLOBALS['DB']->lastInsertId();
+        }
 
-            $GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('" . $name . "');");
-
-            $this->id = (int) $GLOBALS['DB']->lastInsetId();
+        static function getAll()
+        {
+            $returned_brands = $GLOBALS['DB']->query("SELECT * FROM brands;");
+            $brands = array();
+            foreach($returned_brands as $brand) {
+                $name = $brand['name'];
+                $id = $brand['B_Id'];
+                $new_brand = new Brand($name, $id);
+                array_push($brands, $new_brand);
+            }
+            return $brands;
         }
 
         static function deleteAll()

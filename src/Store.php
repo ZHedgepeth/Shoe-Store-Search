@@ -29,17 +29,18 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO shoes.shoe_stores (name) VALUES ('{$this->getName()}');");
+            $GLOBALS['DB']->exec("INSERT INTO shoe_stores (name) VALUES ('{$this->getName()}');");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         static function getAll()
         {
-            $returned_stores = $GLOBALS['DB']->query("SELECT * FROM shoes.shoe_stores;");
+            $returned_stores = $GLOBALS['DB']->query("SELECT * FROM shoe_stores;");
             $stores = array();
             foreach($returned_stores as $store) {
                 $name = $store['name'];
                 $id = $store['S_Id'];
+                var_dump($id);
                 $new_store = new Store($name, $id);
                 array_push($stores, $new_store);
             }
@@ -48,7 +49,7 @@
 
         static function deleteAll()
         {
-            $GLOBALS['DB']->exec("DELETE FROM shoes.shoe_stores;");
+            $GLOBALS['DB']->exec("DELETE FROM shoe_stores;");
         }
 
         static function findById($search_id)
