@@ -5,7 +5,7 @@
     * @backupStaticAttributes disabled
     */
     require_once ("src/Store.php");
-    require_once ("src/Client.php");
+    require_once ("src/Brand.php");
 
     $server = 'mysql:host=localhost:8889;dbname=shoes_test';
     $username = 'root';
@@ -68,38 +68,36 @@
         function test_save()
         {
             //Arrange
+            $id = null;
             $name = "Whatsonya Foot";
-            $new_store = new Store($name);
+            $new_store = new Store($name, $id);
 
             //Act
             $new_store->save();
-            $expected_output = $new_store;
-            $all_stores = Store::getAll();
-            $result = $all_stores[0];
 
             //Assert
-            $this->assertEquals($expected_output, $result);
+            $this->assertEquals($new_store, Store::getAll());
+
         }
 
-        function test_getAll()
-        {
-            //Arrange
-            $name = "GlueAShoeToYou";
-            $new_store = new Store($name);
-            $new_store->save();
-
-            $name2 = "Shoe Glide";
-            $new_store2 = new Store($name2);
-            $new_store2->save();
-
-            $expected_output = [$new_store, $new_store2];
-
-            //Act
-            $result = Store::getAll();
-
-            //Assert
-            $this->assertEquals($expected_output, $result);
-        }
+        // function test_getAll()
+        // {
+        //     //Arrange
+        //     $id = null;
+        //     $name = "GlueAShoeToYou";
+        //     $new_store = new Store($name, $id);
+        //     $new_store->save();
+        //
+        //     $name2 = "Shoe Glide";
+        //     $new_store2 = new Store($name2, $id);
+        //     $new_store2->save();
+        //
+        //     //Act
+        //     $result = Store::getAll();
+        //
+        //     //Assert
+        //     $this->assertEquals([$new_store, $new_store2], $result);
+        // }
 
     }
 

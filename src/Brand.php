@@ -19,17 +19,28 @@
 
         function setName($new_name)
         {
-            $this->name = $new_name;
+            $this->name = (string) $new_name;
         }
 
         function getId()
         {
-            return $this->id;
+            return (int) $this->id;
+        }
+
+        function save()
+        {
+            $name = $this->getName();
+
+            $GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('" . $name . "');");
+
+            $this->id = (int) $GLOBALS['DB']->lastInsetId();
         }
 
         static function deleteAll()
         {
             $GLOBALS['DB']->exec("DELETE FROM brands;");
         }
+
+
     }
 ?>
