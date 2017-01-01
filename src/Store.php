@@ -54,19 +54,12 @@
 
         static function findById($search_id)
         {
-            $search_id = (int) $search_id;
             $store_found = null;
             $all_stores = Store::getAll();
-
-            for ($store_index = 0; $store_index < count($all_stores); $store_index++)
-            {
-                $current_store = $all_stores[$store_index];
-                $current_store_id = $current_store->getId();
-
-                if ($current_store_id == $search_id)
-                {
-                    $store_found = $current_store;
-                    return $store_found;
+            foreach($all_stores as $store) {
+                $store_id = $store->getId();
+                if ($store_id == $search_id) {
+                  $store_found = $store;
                 }
             }
             return $store_found;
@@ -81,12 +74,12 @@
 //      Here is where the tables will be joined ty
         function getBrands()
         {
-            $select_all_brands = $GLOBALS['DB']->query("SELECT brands.* FROM stores
+            $returned_brands = $GLOBALS['DB']->query("SELECT brands.* FROM stores
             JOIN brands_stores ON (stores.S_Id = brands_stores.S_Id)
             JOIN brands ON (brands_stores.B_Id = brands.B_Id)
             WHERE stores.S_Id = {$this->getId()};");
             $current_brands = array();
-            foreach ($select_all_brands as $brand)
+            foreach ($returned_brands as $brand)
             {
                 $brand_name = $brand["name"];
                 $brand_id = $brand["B_Id"];
@@ -94,6 +87,17 @@
                 array_push($current_brands, $new_brand);
             }
             return $current_brands;
+        }
+
+        function delete()
+        {
+            $GLOBALS['DB']->exec("DELETE FROM stores WHERE S_Id = {$this->getId()};");
+        }
+
+        function update($new_name)
+        {
+            $GLOBALS['DB']->exec("UPDATE stores SET name = '{$new_name}' WHERE S_Id = {$this->getId()};");
+            $this->setName($new_name);
         }
     }
 
