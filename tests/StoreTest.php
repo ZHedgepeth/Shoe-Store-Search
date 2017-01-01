@@ -121,7 +121,62 @@
             $result = $new_store->getBrands();
 
             //Assert
-            $this->assertEquals([$new_brand, $new_brand2], $result);         
+            $this->assertEquals([$new_brand, $new_brand2], $result);
+        }
+
+        function test_addBrand()
+        {
+            //Arrange
+            $store_name = "Whatsonya Foot";
+            $new_store = new Store($store_name);
+            $new_store->save();
+
+            $brand_name = "Nike";
+            $new_brand = new Brand($brand_name);
+            $new_brand->save();
+
+            //Act
+            $new_store->addBrand($new_brand);
+
+            //Assert
+            $this->assertEquals([$new_brand], $new_store->getBrands());
+        }
+
+        function testUpdate()
+        {
+            //Arrange
+            $name = "Doctor Shoe";
+            $id = null;
+            $new_store = new Store($name, $id);
+            $new_store->save();
+
+            $new_name = "Nurse Shoe";
+
+            //Act
+            $new_store->update($new_name);
+
+            //Assert
+            $this->assertEquals("Nurse Shoe", $new_store->getName());
+        }
+
+        function testDelete()
+        {
+            //Arrange
+            $name = "Doctor Shoe";
+            $id = null;
+            $new_store = new Store($name, $id);
+            $new_store->save();
+
+            $name2 = "Nurse Shoe";
+            $id = null;
+            $new_store2 = new Store($name2, $id);
+            $new_store2->save();
+
+            //Act
+            $new_store->delete();
+
+            //Assert
+            $this->assertEquals([$new_store2], Store::getAll());
         }
 
     }

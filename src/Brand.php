@@ -78,8 +78,17 @@
             return $current_stores;
         }
 
-        static function findById()
-
-
+        static function findById($search_id)
+        {
+            $brand_found = null;
+            $all_brands = Brand::getAll();
+            foreach($all_brands as $brand) {
+                $brand_id = $brand->getId();
+                if ($brand_id == $search_id) {
+                  $brand_found = $brand;
+                }
+            }
+            return $brand_found;
+        }
     }
 ?>
