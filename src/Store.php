@@ -29,13 +29,13 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO shoe_stores (name) VALUES ('{$this->getName()}');");
+            $GLOBALS['DB']->exec("INSERT INTO stores (name) VALUES ('{$this->getName()}');");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
         static function getAll()
         {
-            $returned_stores = $GLOBALS['DB']->query("SELECT * FROM shoe_stores;");
+            $returned_stores = $GLOBALS['DB']->query("SELECT * FROM stores;");
             $stores = array();
             foreach($returned_stores as $store) {
                 $name = $store['name'];
@@ -49,7 +49,7 @@
 
         static function deleteAll()
         {
-            $GLOBALS['DB']->exec("DELETE FROM shoe_stores;");
+            $GLOBALS['DB']->exec("DELETE FROM stores;");
         }
 
         static function findById($search_id)
@@ -87,10 +87,10 @@
 
             $current_brands = array();
 
-            $select_all_brands = "SELECT brands.* FROM shoe_stores
-            JOIN brands_stores ON (shoe_stores.S_Id = brands_stores.S_Id)
+            $select_all_brands = "SELECT brands.* FROM shoes
+            JOIN brands_stores ON (shoes.S_Id = brands_stores.S_Id)
             JOIN brands ON (brands_stores.B_Id = brands.B_Id)
-            WHERE shoe_stores.S_Id = {$this->getId()};";
+            WHERE shoes.S_Id = {$this->getId()};";
 
 
             foreach ($select_all_brands as $brand)
