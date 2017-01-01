@@ -74,31 +74,24 @@
 
         function addBrand($new_brand)
         {
-            $brand_Id = (int) $new_brand;
-            $store_Id = $this->getId();
-
             //Add into Join Table
-            $GLOBALS['DB']->exec("INSERT INTO brands_stores (B_Id, S_Id) VALUES (" . $brand_Id . ", " . $store_Id .");");
+            $GLOBALS['DB']->exec("INSERT INTO brands_stores (B_Id, S_Id) VALUES ({$new_brand->getId()}, {$this->getId()});");
         }
 
 //      Here is where the tables will be joined ty
         function getBrands()
         {
-
-            $current_brands = array();
-
-            $select_all_brands = "SELECT brands.* FROM shoes
-            JOIN brands_stores ON (shoes.S_Id = brands_stores.S_Id)
+            $select_all_brands = $GLOBALS['DB']->query("SELECT brands.* FROM stores
+            JOIN brands_stores ON (stores.S_Id = brands_stores.S_Id)
             JOIN brands ON (brands_stores.B_Id = brands.B_Id)
-            WHERE shoes.S_Id = {$this->getId()};";
-
-
+            WHERE stores.S_Id = {$this->getId()};");
+            $current_brands = array();
             foreach ($select_all_brands as $brand)
             {
-                $brand_name = $current_brand["name"];
-                $brand_id = $current_brand["B_Id"];
-                $brand_object = new Brand($brand_name, $brand_id);
-                array_push($current_brands, $brand_objects);
+                $brand_name = $brand["name"];
+                $brand_id = $brand["B_Id"];
+                $new_brand = new Brand($brand_name, $brand_id);
+                array_push($current_brands, $new_brand);
             }
             return $current_brands;
         }
