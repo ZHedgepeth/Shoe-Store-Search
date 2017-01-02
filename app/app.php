@@ -34,6 +34,18 @@
         ));
     });
 
+    $app->get("/stores", function() use($app) {
+      return $app['twig']->render('stores.html.twig', array('stores' => Store::getAll()));
+    });
+
+    $app->post("/stores", function() use($app) {
+      $store = $_POST['store'];
+      $id = null;
+      $new_store =  new Store($store, $id);
+      $new_store->save();
+      return $app['twig']->render('index.html.twig', array('stores' => Store::getAll()));
+    });
+
     return $app;
 
 ?>
