@@ -1,5 +1,4 @@
 <?php
-    require_once("src/Brand.php");
 
     class Store
     {

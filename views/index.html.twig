@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Shoe Store</title>
+  </head>
+  <body>
+    <h1>Shoe Store</h1>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Store List:</h3>
+          <a href="/stores"><div id="add-store">Add a Store</div></a>
+          <div id="all_stores">
+            {% if stores is not empty %}
+              {% for store in stores %}
+              <a href="/stores/{{ store.getId }}">{{store.getName}}</a>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
